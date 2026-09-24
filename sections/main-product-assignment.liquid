@@ -1,0 +1,388 @@
+<script type="application/ld+json">
+  {{ product | structured_data }}
+</script>
+
+{{ 'product-assignment.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  assign product_resource = closest.product | default: product
+
+  if product_resource == blank
+    assign product_resource = product
+  endif
+
+  assign current_variant = product_resource.selected_or_first_available_variant
+  assign compare_at_price = current_variant.compare_at_price
+  assign variant_price = current_variant.price
+
+  assign show_compare = false
+
+  if compare_at_price > variant_price
+    assign show_compare = true
+    assign savings_amount = compare_at_price | minus: variant_price
+    assign savings_percent = savings_amount | times: 100.0 | divided_by: compare_at_price | round
+  endif
+
+  assign summary = blank
+
+  assign summary_metafield = product_resource.metafields[section.settings.summary_metafield_namespace][section.settings.summary_metafield_key]
+
+  if summary_metafield != blank
+    assign summary = summary_metafield.value
+  endif
+
+  if summary == blank and section.settings.summary != blank
+    assign summary = section.settings.summary
+  endif
+
+  assign show_limited_stock = false
+
+  if section.settings.show_limited_stock_badge and current_variant.inventory_management == 'shopify'
+    if current_variant.inventory_quantity > 0 and current_variant.inventory_quantity <= section.settings.limited_stock_threshold
+      assign show_limited_stock = true
+    endif
+  endif
+%}
+
+{% capture media_gallery %}
+  {%- content_for 'block',
+    type: '_product-media-gallery',
+    id: 'media-gallery',
+    closest.product: product_resource
+  -%}
+{% endcapture %}
+
+{% capture media_column %}
+  <div class="product-assignment__media-wrap">
+    <div class="product-assignment__media-inner">
+      {{ media_gallery }}
+    </div>
+
+    <div
+      class="product-assignment__trust-bar"
+      role="region"
+      aria-label="{{ section.settings.trust_bar_aria_label | escape }}"
+      style="--product-assignment-trust-desktop-anchor: {{ section.settings.trust_bar_desktop_anchor_percent }}%;"
+    >
+      <ul class="product-assignment__trust-list list-unstyled">
+        {% content_for 'blocks', closest.product: product_resource %}
+      </ul>
+    </div>
+  </div>
+{% endcapture %}
+
+{% capture product_details %}
+  <div
+    id="ProductInformation-{{ section.id }}"
+    class="product-assignment__details product-details sticky-content--desktop"
+    data-testid="product-assignment-details"
+  >
+    <h1 class="product-assignment__title h2">
+      {{ product_resource.title | escape }}
+    </h1>
+
+    {%- if show_limited_stock or section.settings.viewing_message != blank -%}
+      <div class="product-assignment__badges">
+
+        {%- if show_limited_stock -%}
+          <span class="product-assignment__badge product-assignment__badge--stock">
+            <span class="product-assignment__badge-dot" aria-hidden="true"></span>
+            {{ section.settings.limited_stock_label | escape }}
+          </span>
+        {%- endif -%}
+
+        {%- if section.settings.viewing_message != blank -%}
+          <span class="product-assignment__badge product-assignment__badge--viewing">
+            <span
+              class="product-assignment__badge-dot product-assignment__badge-dot--pulse"
+              aria-hidden="true"
+            ></span>
+            {{ section.settings.viewing_message | escape }}
+          </span>
+        {%- endif -%}
+
+      </div>
+    {%- endif -%}
+
+    {%- if summary != blank -%}
+      <div class="product-assignment__summary rte">
+        {{ summary }}
+      </div>
+    {%- endif -%}
+
+    <div class="product-assignment__price-row">
+      <product-price
+        class="product-assignment__price"
+        data-block-id="{{ section.id }}-assignment-price"
+        data-product-id="{{ product_resource.id }}"
+      >
+        {% render 'price',
+          product_resource: product_resource,
+          show_sale_price_first: section.settings.show_sale_price_first
+        %}
+      </product-price>
+
+      {%- if show_compare and section.settings.show_savings_badge -%}
+        <span class="product-assignment__savings-badge">
+          {%- if section.settings.savings_display == 'percent' -%}
+            Save {{ savings_percent }}% OFF
+          {%- else -%}
+            Save {{ savings_amount | money }} OFF
+          {%- endif -%}
+        </span>
+      {%- endif -%}
+    </div>
+
+    {%- unless product_resource.has_only_default_variant -%}
+      {% content_for 'block',
+        type: 'variant-picker',
+        id: 'variant-picker',
+        closest.product: product_resource
+      %}
+    {%- endunless -%}
+
+    {% content_for 'block',
+      type: 'buy-buttons',
+      id: 'buy-buttons',
+      closest.product: product_resource
+    %}
+  </div>
+{% endcapture %}
+
+{% render 'deferred-media-product-model-styles' %}
+{% render 'deferred-media-video-styles' %}
+{% render 'price-styles' %}
+
+{% render 'product-information-content',
+  product: product_resource,
+  section_id: section.id,
+  settings: section.settings,
+  media_gallery: media_column,
+  product_details: product_details,
+  additional_blocks: ''
+%}
+
+{% schema %}
+{
+  "name": "Assignment product",
+  "tag": "section",
+  "class": "main-product-assignment",
+
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "content_width",
+      "label": "Width",
+      "options": [
+        {
+          "value": "content-center-aligned",
+          "label": "Page width"
+        },
+        {
+          "value": "content-full-width",
+          "label": "Full width"
+        }
+      ],
+      "default": "content-center-aligned"
+    },
+    {
+      "type": "select",
+      "id": "desktop_media_position",
+      "label": "Media position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "checkbox",
+      "id": "equal_columns",
+      "label": "Equal columns",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "limit_details_width",
+      "label": "Limit product details width",
+      "default": false,
+      "visible_if": "{{ section.settings.equal_columns }}"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap",
+      "min": 0,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "placeholder": "Default"
+    },
+
+    {
+      "type": "header",
+      "content": "Product summary"
+    },
+    {
+      "type": "text",
+      "id": "summary_metafield_namespace",
+      "label": "Summary metafield namespace",
+      "default": "custom"
+    },
+    {
+      "type": "text",
+      "id": "summary_metafield_key",
+      "label": "Summary metafield key",
+      "default": "summary"
+    },
+    {
+      "type": "richtext",
+      "id": "summary",
+      "label": "Summary fallback (theme editor)",
+      "info": "Used when the product metafield is empty."
+    },
+
+    {
+      "type": "header",
+      "content": "Badges"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_limited_stock_badge",
+      "label": "Show limited stock badge",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "limited_stock_threshold",
+      "label": "Limited stock threshold",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "text",
+      "id": "limited_stock_label",
+      "label": "Limited stock label",
+      "default": "Limited Stock"
+    },
+    {
+      "type": "text",
+      "id": "viewing_message",
+      "label": "Viewing message",
+      "info": "Static merchandising copy only. Leave blank to hide."
+    },
+
+    {
+      "type": "header",
+      "content": "Pricing"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sale_price_first",
+      "label": "Show sale price before compare-at price",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_savings_badge",
+      "label": "Show savings badge",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "savings_display",
+      "label": "Savings badge format",
+      "options": [
+        {
+          "value": "amount",
+          "label": "Dollar amount"
+        },
+        {
+          "value": "percent",
+          "label": "Percent"
+        }
+      ],
+      "default": "amount"
+    },
+
+    {
+      "type": "header",
+      "content": "Trust bar overlay"
+    },
+    {
+      "type": "text",
+      "id": "trust_bar_aria_label",
+      "label": "Trust bar accessibility label",
+      "default": "Product benefits"
+    },
+    {
+      "type": "range",
+      "id": "trust_bar_desktop_anchor_percent",
+      "label": "Desktop overlay anchor (top % of media column)",
+      "info": "Adjust so the bar sits on the hero image when using a large first gallery image.",
+      "min": 25,
+      "max": 75,
+      "step": 1,
+      "unit": "%",
+      "default": 42
+    },
+
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+
+  "presets": [
+    {
+      "name": "Assignment product"
+    }
+  ]
+}
+{% endschema %}
+
