@@ -1,0 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap");
+
+:root {
+  --font-primary: "Recoleta", sans-serif;
+  --font-secondary: "Figtree", sans-serif;
+  --primary-text-color: #31331e;
+}

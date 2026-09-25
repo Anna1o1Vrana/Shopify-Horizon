@@ -1,0 +1,29 @@
+{%- liquid
+  assign product_variant = product.selected_or_first_available_variant
+  assign product_form_id = 'ProductForm-' | append: section.id
+-%}
+
+{% form 'product',
+  product,
+  id: product_form_id,
+  class: 'main-product-assignment__form'
+%}
+  <input
+    type="hidden"
+    name="id"
+    value="{{ product_variant.id }}"
+  >
+
+  <button
+    type="submit"
+    name="add"
+    class="main-product-assignment__add-to-cart"
+    {% unless product_variant.available %}disabled{% endunless %}
+  >
+    {% if product_variant.available %}
+      ADD TO CART
+    {% else %}
+      SOLD OUT
+    {% endif %}
+  </button>
+{% endform %}

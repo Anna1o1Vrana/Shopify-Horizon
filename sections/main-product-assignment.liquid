@@ -1,8 +1,16 @@
-<script type="application/ld+json">
-  {{ product | structured_data }}
-</script>
-
 {{ 'product-assignment.css' | asset_url | stylesheet_tag }}
+
+{{ 'fuelerate.css' | asset_url | stylesheet_tag }}
+
+<style>
+  @font-face {
+    font-family: "Recoleta";
+    src: url("{{ 'Recoleta Regular.woff2' | asset_url }}") format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+</style>
 
 {% liquid
   assign product_resource = closest.product | default: product
@@ -14,8 +22,9 @@
   assign current_variant = product_resource.selected_or_first_available_variant
   assign compare_at_price = current_variant.compare_at_price
   assign variant_price = current_variant.price
-
   assign show_compare = false
+  assign savings_amount = 0
+  assign savings_percent = 0
 
   if compare_at_price > variant_price
     assign show_compare = true
@@ -24,7 +33,6 @@
   endif
 
   assign summary = blank
-
   assign summary_metafield = product_resource.metafields[section.settings.summary_metafield_namespace][section.settings.summary_metafield_key]
 
   if summary_metafield != blank
@@ -37,34 +45,44 @@
 
   assign show_limited_stock = false
 
-  if section.settings.show_limited_stock_badge and current_variant.inventory_management == 'shopify'
-    if current_variant.inventory_quantity > 0 and current_variant.inventory_quantity <= section.settings.limited_stock_threshold
-      assign show_limited_stock = true
-    endif
+  if section.settings.show_limited_stock_badge and current_variant.inventory_management == 'shopify' and current_variant.inventory_quantity > 0 and current_variant.inventory_quantity <= section.settings.limited_stock_threshold
+    assign show_limited_stock = true
+  endif
+
+  assign has_benefits = false
+
+  if section.settings.benefit_1_text != blank or section.settings.benefit_2_text != blank or section.settings.benefit_3_text != blank or section.settings.benefit_4_text != blank or section.settings.benefit_5_text != blank or section.settings.benefit_6_text != blank
+    assign has_benefits = true
+  endif
+
+  assign has_testimonials = false
+
+  if section.settings.testimonial_1_quote != blank or section.settings.testimonial_2_quote != blank or section.settings.testimonial_3_quote != blank or section.settings.testimonial_1_image != blank or section.settings.testimonial_2_image != blank or section.settings.testimonial_3_image != blank
+    assign has_testimonials = true
   endif
 %}
 
 {% capture media_gallery %}
-  {%- content_for 'block',
+  {% content_for 'block',
     type: '_product-media-gallery',
     id: 'media-gallery',
     closest.product: product_resource
-  -%}
+  %}
 {% endcapture %}
 
 {% capture media_column %}
-  <div class="product-assignment__media-wrap">
-    <div class="product-assignment__media-inner">
+  <div class="main-product-assignment__media-wrap">
+    <div class="main-product-assignment__media-inner">
       {{ media_gallery }}
     </div>
 
     <div
-      class="product-assignment__trust-bar"
+      class="main-product-assignment__trust-bar"
       role="region"
       aria-label="{{ section.settings.trust_bar_aria_label | escape }}"
       style="--product-assignment-trust-desktop-anchor: {{ section.settings.trust_bar_desktop_anchor_percent }}%;"
     >
-      <ul class="product-assignment__trust-list list-unstyled">
+      <ul class="main-product-assignment__trust-list list-unstyled">
         {% content_for 'blocks', closest.product: product_resource %}
       </ul>
     </div>
@@ -74,45 +92,49 @@
 {% capture product_details %}
   <div
     id="ProductInformation-{{ section.id }}"
-    class="product-assignment__details product-details sticky-content--desktop"
+    class="main-product-assignment__details product-details sticky-content--desktop"
     data-testid="product-assignment-details"
   >
-    <h1 class="product-assignment__title h2">
+    <h1 class="main-product-assignment__title">
       {{ product_resource.title | escape }}
     </h1>
 
-    {%- if show_limited_stock or section.settings.viewing_message != blank -%}
-      <div class="product-assignment__badges">
-
-        {%- if show_limited_stock -%}
-          <span class="product-assignment__badge product-assignment__badge--stock">
-            <span class="product-assignment__badge-dot" aria-hidden="true"></span>
+    {% if show_limited_stock or section.settings.viewing_message != blank %}
+      <div
+        class="main-product-assignment__badges"
+        aria-label="Product highlights"
+      >
+        {% if show_limited_stock %}
+          <span class="main-product-assignment__badge main-product-assignment__badge--stock">
+            <span
+              class="main-product-assignment__badge-icon main-product-assignment__badge-icon--stock"
+              aria-hidden="true"
+            ></span>
             {{ section.settings.limited_stock_label | escape }}
           </span>
-        {%- endif -%}
+        {% endif %}
 
-        {%- if section.settings.viewing_message != blank -%}
-          <span class="product-assignment__badge product-assignment__badge--viewing">
+        {% if section.settings.viewing_message != blank %}
+          <span class="main-product-assignment__badge main-product-assignment__badge--viewing">
             <span
-              class="product-assignment__badge-dot product-assignment__badge-dot--pulse"
+              class="main-product-assignment__badge-icon main-product-assignment__badge-icon--viewing"
               aria-hidden="true"
             ></span>
             {{ section.settings.viewing_message | escape }}
           </span>
-        {%- endif -%}
-
+        {% endif %}
       </div>
-    {%- endif -%}
+    {% endif %}
 
-    {%- if summary != blank -%}
-      <div class="product-assignment__summary rte">
+    {% if summary != blank %}
+      <div class="main-product-assignment__summary rte">
         {{ summary }}
       </div>
-    {%- endif -%}
+    {% endif %}
 
-    <div class="product-assignment__price-row">
+    <div class="main-product-assignment__price-row">
       <product-price
-        class="product-assignment__price"
+        class="main-product-assignment__price"
         data-block-id="{{ section.id }}-assignment-price"
         data-product-id="{{ product_resource.id }}"
       >
@@ -120,32 +142,355 @@
           product_resource: product_resource,
           show_sale_price_first: section.settings.show_sale_price_first
         %}
-      </product-price>
 
-      {%- if show_compare and section.settings.show_savings_badge -%}
-        <span class="product-assignment__savings-badge">
-          {%- if section.settings.savings_display == 'percent' -%}
-            Save {{ savings_percent }}% OFF
-          {%- else -%}
-            Save {{ savings_amount | money }} OFF
-          {%- endif -%}
-        </span>
-      {%- endif -%}
+        {% if show_compare and section.settings.show_savings_badge %}
+          <span class="main-product-assignment__savings-badge">
+            {% if section.settings.savings_display == 'percent' %}
+              Save {{ savings_percent }}% OFF
+            {% else %}
+              Save {{ savings_amount | money }} OFF
+            {% endif %}
+          </span>
+        {% endif %}
+      </product-price>
     </div>
 
-    {%- unless product_resource.has_only_default_variant -%}
-      {% content_for 'block',
-        type: 'variant-picker',
-        id: 'variant-picker',
-        closest.product: product_resource
-      %}
-    {%- endunless -%}
+    {% if has_benefits %}
+      <div class="main-product-assignment__benefits">
+        {% if section.settings.benefits_heading != blank %}
+          <h2 class="main-product-assignment__benefits-title">
+            {{ section.settings.benefits_heading | escape }}
+          </h2>
+        {% endif %}
 
-    {% content_for 'block',
-      type: 'buy-buttons',
-      id: 'buy-buttons',
-      closest.product: product_resource
-    %}
+        <div class="main-product-assignment__benefits-grid">
+          {% if section.settings.benefit_1_text != blank or section.settings.benefit_1_icon != blank %}
+            <div class="main-product-assignment__benefit">
+              {% if section.settings.benefit_1_icon != blank %}
+                {{
+                  section.settings.benefit_1_icon
+                  | image_url: width: 64
+                  | image_tag:
+                    class: 'main-product-assignment__benefit-icon',
+                    loading: 'lazy',
+                    alt: ''
+                }}
+              {% endif %}
+
+              {% if section.settings.benefit_1_text != blank %}
+                <div class="main-product-assignment__benefit-text">
+                  {{ section.settings.benefit_1_text | escape | newline_to_br }}
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+
+          {% if section.settings.benefit_2_text != blank or section.settings.benefit_2_icon != blank %}
+            <div class="main-product-assignment__benefit">
+              {% if section.settings.benefit_2_icon != blank %}
+                {{
+                  section.settings.benefit_2_icon
+                  | image_url: width: 64
+                  | image_tag:
+                    class: 'main-product-assignment__benefit-icon',
+                    loading: 'lazy',
+                    alt: ''
+                }}
+              {% endif %}
+
+              {% if section.settings.benefit_2_text != blank %}
+                <div class="main-product-assignment__benefit-text">
+                  {{ section.settings.benefit_2_text | escape | newline_to_br }}
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+
+          {% if section.settings.benefit_3_text != blank or section.settings.benefit_3_icon != blank %}
+            <div class="main-product-assignment__benefit">
+              {% if section.settings.benefit_3_icon != blank %}
+                {{
+                  section.settings.benefit_3_icon
+                  | image_url: width: 64
+                  | image_tag:
+                    class: 'main-product-assignment__benefit-icon',
+                    loading: 'lazy',
+                    alt: ''
+                }}
+              {% endif %}
+
+              {% if section.settings.benefit_3_text != blank %}
+                <div class="main-product-assignment__benefit-text">
+                  {{ section.settings.benefit_3_text | escape | newline_to_br }}
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+
+          {% if section.settings.benefit_4_text != blank or section.settings.benefit_4_icon != blank %}
+            <div class="main-product-assignment__benefit">
+              {% if section.settings.benefit_4_icon != blank %}
+                {{
+                  section.settings.benefit_4_icon
+                  | image_url: width: 64
+                  | image_tag:
+                    class: 'main-product-assignment__benefit-icon',
+                    loading: 'lazy',
+                    alt: ''
+                }}
+              {% endif %}
+
+              {% if section.settings.benefit_4_text != blank %}
+                <div class="main-product-assignment__benefit-text">
+                  {{ section.settings.benefit_4_text | escape | newline_to_br }}
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+
+          {% if section.settings.benefit_5_text != blank or section.settings.benefit_5_icon != blank %}
+            <div class="main-product-assignment__benefit">
+              {% if section.settings.benefit_5_icon != blank %}
+                {{
+                  section.settings.benefit_5_icon
+                  | image_url: width: 64
+                  | image_tag:
+                    class: 'main-product-assignment__benefit-icon',
+                    loading: 'lazy',
+                    alt: ''
+                }}
+              {% endif %}
+
+              {% if section.settings.benefit_5_text != blank %}
+                <div class="main-product-assignment__benefit-text">
+                  {{ section.settings.benefit_5_text | escape | newline_to_br }}
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+
+          {% if section.settings.benefit_6_text != blank or section.settings.benefit_6_icon != blank %}
+            <div class="main-product-assignment__benefit">
+              {% if section.settings.benefit_6_icon != blank %}
+                {{
+                  section.settings.benefit_6_icon
+                  | image_url: width: 64
+                  | image_tag:
+                    class: 'main-product-assignment__benefit-icon',
+                    loading: 'lazy',
+                    alt: ''
+                }}
+              {% endif %}
+
+              {% if section.settings.benefit_6_text != blank %}
+                <div class="main-product-assignment__benefit-text">
+                  {{ section.settings.benefit_6_text | escape | newline_to_br }}
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="main-product-assignment__buy-button">
+      {% render 'add-to-cart-button-with-form', product: product_resource %}
+    </div>
+
+    {% if has_testimonials %}
+      <div class="testimonials-section">
+        {% if section.settings.testimonials_heading != blank %}
+          <h2 class="testimonials-section__title">
+            {{ section.settings.testimonials_heading | escape }}
+          </h2>
+        {% endif %}
+
+        <div class="swiper testimonials-slider">
+          <div class="swiper-wrapper">
+            {% if section.settings.testimonial_1_quote != blank or section.settings.testimonial_1_image != blank %}
+              {% assign pop_img_1 = section.settings.testimonial_1_popup_image | default: section.settings.testimonial_1_image %}
+
+              <div class="swiper-slide testimonial-card">
+                <div
+                  class="testimonial-card__avatar-wrapper"
+                  data-media-type="{% if section.settings.testimonial_1_video_url != blank %}video{% else %}image{% endif %}"
+                  data-media-url="{% if section.settings.testimonial_1_video_url != blank %}{{ section.settings.testimonial_1_video_url }}{% elsif pop_img_1 != blank %}{{ pop_img_1 | image_url: width: 1200 }}{% endif %}"
+                >
+                  {% if section.settings.testimonial_1_image != blank %}
+                    {{
+                      section.settings.testimonial_1_image
+                      | image_url: width: 200
+                      | image_tag:
+                        class: 'testimonial-card__avatar',
+                        loading: 'lazy',
+                        alt: section.settings.testimonial_1_author
+                    }}
+                  {% endif %}
+
+                  {% if section.settings.testimonial_1_video_url != blank %}
+                    <span class="testimonial-card__play-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
+                    </span>
+                  {% endif %}
+                </div>
+
+                {% if section.settings.testimonial_1_quote != blank %}
+                  <div class="testimonial-card__quote">
+                    {{ section.settings.testimonial_1_quote }}
+                  </div>
+                {% endif %}
+
+                {% if section.settings.testimonial_1_author != blank %}
+                  <p class="testimonial-card__author">
+                    {{ section.settings.testimonial_1_author | escape }}
+                  </p>
+                {% endif %}
+              </div>
+            {% endif %}
+
+            {% if section.settings.testimonial_2_quote != blank or section.settings.testimonial_2_image != blank %}
+              {% assign pop_img_2 = section.settings.testimonial_2_popup_image | default: section.settings.testimonial_2_image %}
+
+              <div class="swiper-slide testimonial-card">
+                <div
+                  class="testimonial-card__avatar-wrapper"
+                  data-media-type="{% if section.settings.testimonial_2_video_url != blank %}video{% else %}image{% endif %}"
+                  data-media-url="{% if section.settings.testimonial_2_video_url != blank %}{{ section.settings.testimonial_2_video_url }}{% elsif pop_img_2 != blank %}{{ pop_img_2 | image_url: width: 1200 }}{% endif %}"
+                >
+                  {% if section.settings.testimonial_2_image != blank %}
+                    {{
+                      section.settings.testimonial_2_image
+                      | image_url: width: 200
+                      | image_tag:
+                        class: 'testimonial-card__avatar',
+                        loading: 'lazy',
+                        alt: section.settings.testimonial_2_author
+                    }}
+                  {% endif %}
+
+                  {% if section.settings.testimonial_2_video_url != blank %}
+                    <span class="testimonial-card__play-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
+                    </span>
+                  {% endif %}
+                </div>
+
+                {% if section.settings.testimonial_2_quote != blank %}
+                  <div class="testimonial-card__quote">
+                    {{ section.settings.testimonial_2_quote }}
+                  </div>
+                {% endif %}
+
+                {% if section.settings.testimonial_2_author != blank %}
+                  <p class="testimonial-card__author">
+                    {{ section.settings.testimonial_2_author | escape }}
+                  </p>
+                {% endif %}
+              </div>
+            {% endif %}
+
+            {% if section.settings.testimonial_4_quote != blank or section.settings.testimonial_3_image != blank %}
+              {% assign pop_img_3 = section.settings.testimonial_3_popup_image | default: section.settings.testimonial_3_image %}
+
+              <div class="swiper-slide testimonial-card">
+                <div
+                  class="testimonial-card__avatar-wrapper"
+                  data-media-type="{% if section.settings.testimonial_3_video_url != blank %}video{% else %}image{% endif %}"
+                  data-media-url="{% if section.settings.testimonial_3_video_url != blank %}{{ section.settings.testimonial_3_video_url }}{% elsif pop_img_3 != blank %}{{ pop_img_3 | image_url: width: 1200 }}{% endif %}"
+                >
+                  {% if section.settings.testimonial_3_image != blank %}
+                    {{
+                      section.settings.testimonial_3_image
+                      | image_url: width: 200
+                      | image_tag:
+                        class: 'testimonial-card__avatar',
+                        loading: 'lazy',
+                        alt: section.settings.testimonial_3_author
+                    }}
+                  {% endif %}
+
+                  {% if section.settings.testimonial_3_video_url != blank %}
+                    <span class="testimonial-card__play-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
+                    </span>
+                  {% endif %}
+                </div>
+
+                {% if section.settings.testimonial_3_quote != blank %}
+                  <div class="testimonial-card__quote">
+                    {{ section.settings.testimonial_3_quote }}
+                  </div>
+                {% endif %}
+
+                {% if section.settings.testimonial_3_author != blank %}
+                  <p class="testimonial-card__author">
+                    {{ section.settings.testimonial_3_author | escape }}
+                  </p>
+                {% endif %}
+              </div>
+            {% endif %}
+
+            {% if section.settings.testimonial_4_quote != blank or section.settings.testimonial_4_image != blank %}
+              {% assign pop_img_4 = section.settings.testimonial_4_popup_image | default: section.settings.testimonial_4_image %}
+
+              <div class="swiper-slide testimonial-card">
+                <div
+                  class="testimonial-card__avatar-wrapper"
+                  data-media-type="{% if section.settings.testimonial_4_video_url != blank %}video{% else %}image{% endif %}"
+                  data-media-url="{% if section.settings.testimonial_4_video_url != blank %}{{ section.settings.testimonial_4_video_url }}{% elsif pop_img_4 != blank %}{{ pop_img_4 | image_url: width: 1200 }}{% endif %}"
+                >
+                  {% if section.settings.testimonial_4_image != blank %}
+                    {{
+                      section.settings.testimonial_4_image
+                      | image_url: width: 200
+                      | image_tag:
+                        class: 'testimonial-card__avatar',
+                        loading: 'lazy',
+                        alt: section.settings.testimonial_4_author
+                    }}
+                  {% endif %}
+
+                  {% if section.settings.testimonial_4_video_url != blank %}
+                    <span class="testimonial-card__play-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
+                    </span>
+                  {% endif %}
+                </div>
+
+                {% if section.settings.testimonial_4_quote != blank %}
+                  <div class="testimonial-card__quote">
+                    {{ section.settings.testimonial_4_quote }}
+                  </div>
+                {% endif %}
+
+                {% if section.settings.testimonial_4_author != blank %}
+                  <p class="testimonial-card__author">
+                    {{ section.settings.testimonial_4_author | escape }}
+                  </p>
+                {% endif %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div id="TestimonialModal-{{ section.id }}" class="testimonial-modal" aria-hidden="true">
+        <div class="testimonial-modal__content">
+          <button type="button" class="testimonial-modal__close" aria-label="Close modal">&times;</button>
+          <div class="testimonial-modal__body"></div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% comment %} {% render 'product-tabs' %} {% endcomment %}
   </div>
 {% endcapture %}
 
@@ -162,19 +507,23 @@
   additional_blocks: ''
 %}
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+{{ 'testimonials-modal.js' | asset_url | script_tag }}
+
+<script type="application/ld+json">
+  {{ product_resource | structured_data }}
+</script>
+
 {% schema %}
 {
-  "name": "Assignment product",
+  "name": "Main assignment product",
   "tag": "section",
   "class": "main-product-assignment",
-
   "disabled_on": {
-    "groups": [
-      "header",
-      "footer"
-    ]
+    "groups": ["header", "footer"]
   },
-
   "settings": [
     {
       "type": "header",
@@ -183,7 +532,7 @@
     {
       "type": "select",
       "id": "content_width",
-      "label": "Width",
+      "label": "Section width",
       "options": [
         {
           "value": "content-center-aligned",
@@ -222,8 +571,7 @@
       "type": "checkbox",
       "id": "limit_details_width",
       "label": "Limit product details width",
-      "default": false,
-      "visible_if": "{{ section.settings.equal_columns }}"
+      "default": false
     },
     {
       "type": "range",
@@ -235,13 +583,6 @@
       "unit": "px",
       "default": 48
     },
-    {
-      "type": "color",
-      "id": "background_color",
-      "label": "Background color",
-      "placeholder": "Default"
-    },
-
     {
       "type": "header",
       "content": "Product summary"
@@ -264,7 +605,6 @@
       "label": "Summary fallback (theme editor)",
       "info": "Used when the product metafield is empty."
     },
-
     {
       "type": "header",
       "content": "Badges"
@@ -296,7 +636,6 @@
       "label": "Viewing message",
       "info": "Static merchandising copy only. Leave blank to hide."
     },
-
     {
       "type": "header",
       "content": "Pricing"
@@ -329,7 +668,194 @@
       ],
       "default": "amount"
     },
-
+    {
+      "type": "header",
+      "content": "Benefits"
+    },
+    {
+      "type": "text",
+      "id": "benefits_heading",
+      "label": "Benefits heading",
+      "default": "Why you need this?"
+    },
+    {
+      "type": "image_picker",
+      "id": "benefit_1_icon",
+      "label": "Benefit 1 icon"
+    },
+    {
+      "type": "textarea",
+      "id": "benefit_1_text",
+      "label": "Benefit 1 text"
+    },
+    {
+      "type": "image_picker",
+      "id": "benefit_2_icon",
+      "label": "Benefit 2 icon"
+    },
+    {
+      "type": "textarea",
+      "id": "benefit_2_text",
+      "label": "Benefit 2 text"
+    },
+    {
+      "type": "image_picker",
+      "id": "benefit_3_icon",
+      "label": "Benefit 3 icon"
+    },
+    {
+      "type": "textarea",
+      "id": "benefit_3_text",
+      "label": "Benefit 3 text"
+    },
+    {
+      "type": "image_picker",
+      "id": "benefit_4_icon",
+      "label": "Benefit 4 icon"
+    },
+    {
+      "type": "textarea",
+      "id": "benefit_4_text",
+      "label": "Benefit 4 text"
+    },
+    {
+      "type": "image_picker",
+      "id": "benefit_5_icon",
+      "label": "Benefit 5 icon"
+    },
+    {
+      "type": "textarea",
+      "id": "benefit_5_text",
+      "label": "Benefit 5 text"
+    },
+    {
+      "type": "image_picker",
+      "id": "benefit_6_icon",
+      "label": "Benefit 6 icon"
+    },
+    {
+      "type": "textarea",
+      "id": "benefit_6_text",
+      "label": "Benefit 6 text"
+    },
+    {
+      "type": "header",
+      "content": "Testimonials"
+    },
+    {
+      "type": "text",
+      "id": "testimonials_heading",
+      "label": "Testimonials heading",
+      "default": "Real People. Real Healing."
+    },
+    {
+      "type": "image_picker",
+      "id": "testimonial_1_image",
+      "label": "Testimonial 1 Avatar"
+    },
+    {
+      "type": "image_picker",
+      "id": "testimonial_1_popup_image",
+      "label": "Testimonial 1 Popup Image (Optional)",
+      "info": "Fallback: uses avatar if empty"
+    },
+    {
+      "type": "url",
+      "id": "testimonial_1_video_url",
+      "label": "Testimonial 1 Video URL (Optional)",
+      "info": "MP4 file, YouTube or Vimeo URL"
+    },
+    {
+      "type": "richtext",
+      "id": "testimonial_1_quote",
+      "label": "Testimonial 1 Text"
+    },
+    {
+      "type": "text",
+      "id": "testimonial_1_author",
+      "label": "Testimonial 1 Author"
+    },
+    {
+      "type": "image_picker",
+      "id": "testimonial_2_image",
+      "label": "Testimonial 2 Avatar"
+    },
+    {
+      "type": "image_picker",
+      "id": "testimonial_2_popup_image",
+      "label": "Testimonial 2 Popup Image (Optional)",
+      "info": "Fallback: uses avatar if empty"
+    },
+    {
+      "type": "url",
+      "id": "testimonial_2_video_url",
+      "label": "Testimonial 2 Video URL (Optional)",
+      "info": "MP4 file, YouTube or Vimeo URL"
+    },
+    {
+      "type": "richtext",
+      "id": "testimonial_2_quote",
+      "label": "Testimonial 2 Text"
+    },
+    {
+      "type": "text",
+      "id": "testimonial_2_author",
+      "label": "Testimonial 2 Author"
+    },
+    {
+      "type": "image_picker",
+      "id": "testimonial_3_image",
+      "label": "Testimonial 3 Avatar"
+    },
+    {
+      "type": "image_picker",
+      "id": "testimonial_3_popup_image",
+      "label": "Testimonial 3 Popup Image (Optional)",
+      "info": "Fallback: uses avatar if empty"
+    },
+    {
+      "type": "url",
+      "id": "testimonial_3_video_url",
+      "label": "Testimonial 3 Video URL (Optional)",
+      "info": "MP4 file, YouTube or Vimeo URL"
+    },
+    {
+      "type": "richtext",
+      "id": "testimonial_3_quote",
+      "label": "Testimonial 3 Text"
+    },
+    {
+      "type": "text",
+      "id": "testimonial_3_author",
+      "label": "Testimonial 3 Author"
+    },
+    {
+      "type": "image_picker",
+      "id": "testimonial_4_image",
+      "label": "Testimonial 4 Avatar"
+    },
+    {
+      "type": "image_picker",
+      "id": "testimonial_4_popup_image",
+      "label": "Testimonial 4 Popup Image (Optional)",
+      "info": "Fallback: uses avatar if empty"
+    },
+    {
+      "type": "url",
+      "id": "testimonial_4_video_url",
+      "label": "Testimonial 4 Video URL (Optional)",
+      "info": "MP4 file, YouTube or Vimeo URL"
+    },
+    {
+      "type": "richtext",
+      "id": "testimonial_4_quote",
+      "label": "Testimonial 4 Text"
+    },
+    {
+      "type": "text",
+      "id": "testimonial_4_author",
+      "label": "Testimonial 4 Author"
+    },
     {
       "type": "header",
       "content": "Trust bar overlay"
@@ -351,14 +877,13 @@
       "unit": "%",
       "default": 42
     },
-
     {
       "type": "header",
       "content": "Padding"
     },
     {
       "type": "range",
-      "id": "padding-block-start",
+      "id": "padding_block_start",
       "label": "Top",
       "min": 0,
       "max": 100,
@@ -368,7 +893,7 @@
     },
     {
       "type": "range",
-      "id": "padding-block-end",
+      "id": "padding_block_end",
       "label": "Bottom",
       "min": 0,
       "max": 100,
@@ -377,7 +902,6 @@
       "default": 0
     }
   ],
-
   "presets": [
     {
       "name": "Assignment product"
@@ -385,4 +909,3 @@
   ]
 }
 {% endschema %}
-
