@@ -1,11 +1,93 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
-    "sections": {
-      "main": {
-        "type": "main-product-assignment",
-        "settings": {}
+  "sections": {
+    "main": {
+      "type": "main-product-assignment",
+      "blocks": {
+        "media-gallery": {
+          "type": "_product-media-gallery",
+          "static": true,
+          "settings": {
+            "media_presentation": "grid",
+            "media_columns": "one",
+            "image_gap": 0,
+            "large_first_image": false,
+            "icons_style": "arrow",
+            "slideshow_controls_style": "dots",
+            "slideshow_mobile_controls_style": "dots",
+            "thumbnail_position": "bottom",
+            "thumbnail_width": 64,
+            "thumbnail_radius": 0,
+            "aspect_ratio": "adapt",
+            "constrain_to_viewport": false,
+            "media_fit": "cover",
+            "media_radius": 4,
+            "extend_media": true,
+            "zoom": true,
+            "video_loop": false,
+            "hide_variants": false,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "settings": {
+        "content_width": "content-center-aligned",
+        "desktop_media_position": "left",
+        "equal_columns": false,
+        "limit_details_width": false,
+        "gap": 48,
+        "summary_metafield_namespace": "custom",
+        "summary_metafield_key": "summary",
+        "summary": "<p>Reduce inflammation, improve sleep, and calm your nervous system all while you sleep or relax, safely grounded at home.</p>",
+        "show_limited_stock_badge": true,
+        "limited_stock_threshold": 10,
+        "limited_stock_label": "Limited Stock",
+        "viewing_message": "23 people viewing this now",
+        "show_sale_price_first": true,
+        "show_savings_badge": true,
+        "savings_display": "amount",
+        "benefits_heading": "Why you need this?",
+        "benefit_1_icon": "shopify://shop_images/solar_moon-outline.svg",
+        "benefit_1_text": "Fall asleep faster and wake up fully rested",
+        "benefit_2_icon": "shopify://shop_images/hugeicons_body-part-muscle.svg",
+        "benefit_2_text": "Less joint pain and morning stiffness",
+        "benefit_3_text": "",
+        "benefit_4_text": "",
+        "benefit_5_text": "",
+        "benefit_6_text": "",
+        "testimonials_heading": "Real People. Real Healing.",
+        "testimonial_1_video_url": "",
+        "testimonial_1_quote": "",
+        "testimonial_1_author": "",
+        "testimonial_2_video_url": "",
+        "testimonial_2_quote": "",
+        "testimonial_2_author": "",
+        "testimonial_3_video_url": "",
+        "testimonial_3_quote": "",
+        "testimonial_3_author": "",
+        "testimonial_4_video_url": "",
+        "testimonial_4_quote": "",
+        "testimonial_4_author": "",
+        "trust_bar_aria_label": "Product benefits",
+        "trust_bar_desktop_anchor_percent": 42,
+        "padding_block_start": 0,
+        "padding_block_end": 0
       }
-    },
-    "order": [
-      "main"
-    ]
-  }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
