@@ -490,7 +490,14 @@
       </div>
     {% endif %}
 
-    {% comment %} {% render 'product-tabs' %} {% endcomment %}
+    
+
+
+    {% content_for 'block',
+      type: '_product-tabs',
+      id: 'product-tabs'
+    %}
+    
   </div>
 {% endcapture %}
 
@@ -900,6 +907,11 @@
       "step": 1,
       "unit": "px",
       "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "_product-tabs"
     }
   ],
   "presets": [
