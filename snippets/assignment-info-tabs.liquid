@@ -1,0 +1,389 @@
+<section
+  class="assignment-info-tabs"
+  data-assignment-info-tabs
+>
+  <div class="assignment-info-tabs__nav">
+    <button
+      class="assignment-info-tabs__button is-active"
+      type="button"
+      data-tab-button="description"
+      aria-expanded="true"
+    >
+      <span class="assignment-info-tabs__title"> Description </span>
+
+      <span
+        class="assignment-info-tabs__icon"
+        aria-hidden="true"
+      ></span>
+    </button>
+
+    <button
+      class="assignment-info-tabs__button"
+      type="button"
+      data-tab-button="who-is-it-for"
+      aria-expanded="false"
+    >
+      <span class="assignment-info-tabs__title"> Who Is It For? </span>
+
+      <span
+        class="assignment-info-tabs__icon"
+        aria-hidden="true"
+      ></span>
+    </button>
+
+    <button
+      class="assignment-info-tabs__button"
+      type="button"
+      data-tab-button="shipping"
+      aria-expanded="false"
+    >
+      <span class="assignment-info-tabs__title"> Shipping & Returns </span>
+
+      <span
+        class="assignment-info-tabs__icon"
+        aria-hidden="true"
+      ></span>
+    </button>
+
+    <button
+      class="assignment-info-tabs__button"
+      type="button"
+      data-tab-button="care"
+      aria-expanded="false"
+    >
+      <span class="assignment-info-tabs__title"> Care Instructions </span>
+
+      <span
+        class="assignment-info-tabs__icon"
+        aria-hidden="true"
+      ></span>
+    </button>
+  </div>
+
+  <div class="assignment-info-tabs__content">
+    <div
+      class="assignment-info-tabs__panel is-active"
+      data-tab-panel="description"
+    >
+      <p>
+        Experience deeper sleep, less pain, and calmer mornings, all from the comfort of your bed. Terra Therapy’s
+        grounding sheets are woven with 400 thread count organic cotton and 10% pure silver fiber to deliver a safe,
+        comfortable, and effective grounding connection every night.
+      </p>
+
+      <p>
+        Plug into any grounded outlet and let Earth’s natural electrons flow through the sheet to support your body’s
+        recovery, from better sleep and reduced inflammation to calmer nervous system function.
+      </p>
+
+      <p>No EMFs. No batteries. Just effortless, science-backed healing while you sleep.</p>
+    </div>
+
+    <div
+      class="assignment-info-tabs__panel"
+      data-tab-panel="who-is-it-for"
+    >
+      <p>Grounding can support you if you’re:</p>
+
+      <ul>
+        <li>Struggling with poor sleep, racing thoughts, or insomnia</li>
+        <li>Waking up stiff, sore, or fatigued</li>
+        <li>Living with chronic pain, inflammation, or autoimmune issues</li>
+        <li>Experiencing anxiety, stress, or hormonal imbalance</li>
+        <li>Looking for a natural, non-invasive wellness solution</li>
+      </ul>
+    </div>
+
+    <div
+      class="assignment-info-tabs__panel"
+      data-tab-panel="shipping"
+    >
+      <ul>
+        <li>
+          <strong>Free U.S. shipping</strong>
+          on orders over $100
+        </li>
+
+        <li>
+          <strong>Fast delivery:</strong>
+          2–6 days (U.S. & Canada), 7–10 days (EU & international)
+        </li>
+
+        <li>
+          <strong>90-Day Money-Back Guarantee:</strong>
+          Try it risk-free. If you don’t feel the benefits, send it back. No questions asked.
+        </li>
+
+        <li>
+          <strong>Returns:</strong>
+          Contact our support team for easy return instructions. Products must be in good condition.
+        </li>
+
+        <li>
+          <strong>Support:</strong>
+          Our team is available 24/7 to help with ordering, setup, or troubleshooting.
+        </li>
+      </ul>
+    </div>
+
+    <div
+      class="assignment-info-tabs__panel"
+      data-tab-panel="care"
+    >
+      <p>To maintain conductivity and extend the life of your grounding sheet:</p>
+
+      <ul>
+        <li>Wash on gentle cycle with mild detergent</li>
+        <li>Avoid bleach, fabric softeners, or dryer sheets</li>
+        <li>Air dry when possible, or tumble dry on low</li>
+        <li>Do not dry clean</li>
+        <li>Wash regularly to remove body oils that can affect performance</li>
+      </ul>
+
+      <p>We include full care instructions in the box, and our customer team is always available if you need help.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .assignment-info-tabs {
+    width: 100%;
+  }
+
+  .assignment-info-tabs__nav {
+    display: flex;
+    width: 100%;
+    border-bottom: 1px solid var(--primary-text-color);
+  }
+
+  .assignment-info-tabs__button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    min-width: 0;
+    padding: 10px 16px 14px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    font: inherit;
+    text-align: center;
+  }
+
+  .assignment-info-tabs__button:first-child {
+    justify-content: flex-start;
+    padding-left: 0;
+    text-align: left;
+  }
+
+  .assignment-info-tabs__button:last-child {
+    justify-content: flex-end;
+    padding-right: 0;
+    text-align: right;
+  }
+
+  .assignment-info-tabs__title {
+    font-size: var(--font-size--md);
+    font-family: var(--font-secondary);
+    line-height: 1.1;
+    color: rgba(49, 51, 30, 0.5);
+    white-space: nowrap;
+    transition: color 0.2s ease;
+  }
+
+  .assignment-info-tabs__button:hover .assignment-info-tabs__title,
+  .assignment-info-tabs__button.is-active .assignment-info-tabs__title {
+    color: var(--primary-text-color);
+  }
+
+  .assignment-info-tabs__button.is-active::before {
+    content: '';
+    position: absolute;
+    right: -1px;
+    bottom: -8px;
+    left: -3px;
+    height: 13px;
+    background: var(--primary-text-color);
+    border-radius: 32px;
+    transition: transform ease-in-out 0.25s;
+  }
+
+  .assignment-info-tabs__button:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    right: 1px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--primary-text-color);
+    transform: translate(50%, -50%);
+  }
+
+  .assignment-info-tabs__icon {
+    display: none;
+  }
+
+  .assignment-info-tabs__content {
+    width: 100%;
+    padding: 24px 0 0;
+  }
+
+  .assignment-info-tabs__panel {
+    display: none;
+    font-size: var(--font-size--sm);
+    font-family: var(--font-secondary);
+    width: 100%;
+    line-height: 1.1;
+    color: #333;
+  }
+
+  .assignment-info-tabs__panel.is-active {
+    display: block;
+  }
+
+  .assignment-info-tabs__panel p {
+    margin: 0 0 16px;
+  }
+
+  .assignment-info-tabs__panel p:last-child {
+    margin-bottom: 0;
+  }
+
+  .assignment-info-tabs__panel ul {
+    margin: 0;
+    padding-left: 20px;
+  }
+
+  .assignment-info-tabs__panel li + li {
+    margin-top: 8px;
+  }
+
+  .assignment-info-tabs__panel strong {
+    font-weight: 600;
+  }
+
+  @media screen and (max-width: 767px) {
+    .assignment-info-tabs__nav {
+      display: block;
+      border-bottom: 0;
+    }
+
+    .assignment-info-tabs__button {
+      justify-content: space-between !important;
+      width: 100%;
+      min-height: 52px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--primary-text-color);
+      text-align: left !important;
+    }
+
+    .assignment-info-tabs__button:first-child,
+    .assignment-info-tabs__button:last-child {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .assignment-info-tabs__button::before {
+      display: none;
+    }
+
+    .assignment-info-tabs__button:not(:last-child)::after {
+      display: none;
+    }
+
+    .assignment-info-tabs__icon {
+      position: relative;
+      display: block;
+      width: 14px;
+      height: 14px;
+      flex: 0 0 14px;
+    }
+
+    .assignment-info-tabs__icon::before,
+    .assignment-info-tabs__icon::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 12px;
+      height: 2px;
+      background: rgba(0, 0, 0, 1);
+      transform: translate(-50%, -50%);
+    }
+
+    .assignment-info-tabs__icon::after {
+      transform: translate(-50%, -50%) rotate(90deg);
+      transition: transform 0.2s ease;
+    }
+
+    .assignment-info-tabs__button.is-active .assignment-info-tabs__icon::after {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    .assignment-info-tabs__content {
+      padding: 0;
+    }
+
+    .assignment-info-tabs__panel {
+      padding: 16px 0 24px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .assignment-info-tabs__panel:not(.is-active) {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const containers = document.querySelectorAll('[data-assignment-info-tabs]');
+
+    containers.forEach(function (container) {
+      const buttons = container.querySelectorAll('[data-tab-button]');
+      const panels = container.querySelectorAll('[data-tab-panel]');
+
+      buttons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          const target = button.dataset.tabButton;
+          const isMobile = window.innerWidth < 768;
+          const isActive = button.classList.contains('is-active');
+
+          if (isMobile && isActive) {
+            button.classList.remove('is-active');
+            button.setAttribute('aria-expanded', 'false');
+
+            const panel = container.querySelector('[data-tab-panel="' + target + '"]');
+
+            if (panel) {
+              panel.classList.remove('is-active');
+            }
+
+            return;
+          }
+
+          buttons.forEach(function (item) {
+            item.classList.remove('is-active');
+            item.setAttribute('aria-expanded', 'false');
+          });
+
+          panels.forEach(function (panel) {
+            panel.classList.remove('is-active');
+          });
+
+          button.classList.add('is-active');
+          button.setAttribute('aria-expanded', 'true');
+
+          const panel = container.querySelector('[data-tab-panel="' + target + '"]');
+
+          if (panel) {
+            panel.classList.add('is-active');
+          }
+        });
+      });
+    });
+  });
+</script>

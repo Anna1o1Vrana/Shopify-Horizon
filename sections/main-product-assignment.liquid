@@ -92,7 +92,7 @@
 {% capture product_details %}
   <div
     id="ProductInformation-{{ section.id }}"
-    class="main-product-assignment__details product-details sticky-content--desktop"
+    class="main-product-assignment__details product-details"
     data-testid="product-assignment-details"
   >
     <h1 class="main-product-assignment__title">
@@ -490,13 +490,12 @@
       </div>
     {% endif %}
 
-    
+    {% render 'assignment-info-tabs' %}
 
-
-    {% content_for 'block',
+    {% comment %} {% content_for 'block',
       type: '_product-tabs',
       id: 'product-tabs'
-    %}
+    %} {% endcomment %}
     
   </div>
 {% endcapture %}

@@ -1,53 +1,50 @@
-<details class="product-tabs__item">
+<button
+  type="button"
+  class="assignment-info-tabs__button"
+  data-product-tab-summary
+  aria-expanded="false"
+>
+  <span class="product-tabs__title">
+    {{ block.settings.title | escape }}
+  </span>
 
-    <summary class="product-tabs__summary">
-  
-      <span class="product-tabs__title">
-        {{ block.settings.title | escape }}
-      </span>
-  
-      <span
-        class="product-tabs__icon"
-        aria-hidden="true"
-      ></span>
-  
-    </summary>
-  
-    <div class="product-tabs__content">
-  
-      <article class="product-tabs__inner">
-        {{ block.settings.content }}
-      </article>
-  
-    </div>
-  
-  </details>
-  
-  {% schema %}
-  
-  {
-    "name": "Product tab",
-  
-    "settings": [
-      {
-        "type": "text",
-        "id": "title",
-        "label": "Title",
-        "default": "Product details"
-      },
-      {
-        "type": "richtext",
-        "id": "content",
-        "label": "Content",
-        "default": "<p>Add your content here.</p>"
-      }
-    ],
-  
-    "presets": [
-      {
-        "name": "Product tab"
-      }
-    ]
-  }
-  
-  {% endschema %}
+  <span
+    class="product-tabs__icon"
+    aria-hidden="true"
+  ></span>
+</button>
+
+<div
+  class="assignment-info-tabs__panel"
+  data-product-tab-content
+  hidden
+>
+  <div class="product-tabs__inner">
+    {{ block.settings.content }}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product tab",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Product details"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content",
+      "default": "<p>Add your content here.</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product tab"
+    }
+  ]
+}
+{% endschema %}
