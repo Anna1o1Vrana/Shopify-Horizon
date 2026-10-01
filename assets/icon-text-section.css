@@ -1,0 +1,39 @@
+.icon-text__list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+  padding: 20px;
+}
+
+.icon-text__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon-text__item__icon {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+.icon-text__item__text {
+  color: #fff;
+  font-family: var(--font-secondary);
+  font-size: var(--font-size--md);
+  line-height: 1.1;
+}
+
+@media screen and (min-width: 750px) {
+  .icon-text__list {
+    flex-direction: row;
+    max-width: 1178px;
+    margin: 0 auto;
+  }
+
+  .icon-text__item__text {
+    font-size: var(--font-size--xl);
+  }
+}

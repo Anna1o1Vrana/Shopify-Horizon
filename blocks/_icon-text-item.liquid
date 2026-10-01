@@ -1,0 +1,39 @@
+<div class="icon-text__item" {{ block.shopify_attributes }}>
+  {% if block.settings.icon != blank %}
+    {{
+      block.settings.icon
+      | image_url: width: 64
+      | image_tag: class: 'icon-text__item__icon', loading: 'lazy', alt: ''
+    }}
+  {% endif %}
+
+  {% if block.settings.text != blank %}
+    <span class="icon-text__item__text">
+      {{ block.settings.text }}
+    </span>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Icon + text",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Add text here"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon",
+      "label": "Icon"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Icon + text"
+    }
+  ]
+}
+{% endschema %}

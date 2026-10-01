@@ -1,0 +1,33 @@
+{{ 'icon-text-section.css' | asset_url | stylesheet_tag }}
+
+<div class="icon-text-section" style="background-color: {{ section.settings.background_color }}">
+  <div class="icon-text__list">
+    {% content_for 'blocks' %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Flex icon text",
+  "tag": "section",
+  "class": "icon-text-container",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#292D1A"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "_icon-text-item"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Flex icon text"
+    }
+  ]
+}
+{% endschema %}
