@@ -1,7 +1,7 @@
 .icon-text__list {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
   gap: 5px;
   padding: 20px;
