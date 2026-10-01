@@ -100,29 +100,12 @@
     "flex_icon_text_Q363VV": {
       "type": "flex-icon-text",
       "blocks": {
-        "icon_text_item_Fjhw3J": {
+        "icon_text_item_AMHgmJ": {
           "type": "_icon-text-item",
           "name": "Icon + text",
           "settings": {
-            "text": "A Tree Planted per Order",
-            "icon": "shopify://shop_images/Tree.svg"
-          },
-          "blocks": {}
-        },
-        "icon_text_item_AfwwRE": {
-          "type": "_icon-text-item",
-          "name": "Icon + text",
-          "settings": {
-            "text": "Ships in 2–6 Days",
-            "icon": "shopify://shop_images/Package.svg"
-          },
-          "blocks": {}
-        },
-        "icon_text_item_rXe3hU": {
-          "type": "_icon-text-item",
-          "name": "Icon + text",
-          "settings": {
-            "text": "Add text here"
+            "text": "90-Day Results-Backed Guarantee",
+            "icon": "shopify://shop_images/Vector.svg"
           },
           "blocks": {}
         },
@@ -135,22 +118,30 @@
           },
           "blocks": {}
         },
-        "icon_text_item_AMHgmJ": {
+        "icon_text_item_AfwwRE": {
           "type": "_icon-text-item",
           "name": "Icon + text",
           "settings": {
-            "text": "90-Day Results-Backed Guarantee",
-            "icon": "shopify://shop_images/Vector.svg"
+            "text": "Ships in 2–6 Days",
+            "icon": "shopify://shop_images/Package.svg"
+          },
+          "blocks": {}
+        },
+        "icon_text_item_Fjhw3J": {
+          "type": "_icon-text-item",
+          "name": "Icon + text",
+          "settings": {
+            "text": "A Tree Planted per Order",
+            "icon": "shopify://shop_images/Tree.svg"
           },
           "blocks": {}
         }
       },
       "block_order": [
-        "icon_text_item_Fjhw3J",
-        "icon_text_item_AfwwRE",
-        "icon_text_item_rXe3hU",
+        "icon_text_item_AMHgmJ",
         "icon_text_item_jBrrhY",
-        "icon_text_item_AMHgmJ"
+        "icon_text_item_AfwwRE",
+        "icon_text_item_Fjhw3J"
       ],
       "name": "Flex icon text",
       "settings": {
