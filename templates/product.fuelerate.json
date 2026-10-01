@@ -40,55 +40,6 @@
             "padding-inline-end": 0
           },
           "blocks": {}
-        },
-        "product-tabs": {
-          "type": "_product-tabs",
-          "static": true,
-          "settings": {},
-          "blocks": {
-            "product_tab_GFU7eR": {
-              "type": "_product-tab",
-              "name": "Product tab",
-              "settings": {
-                "title": "Description",
-                "content": "<p>Experience deeper sleep, less pain, and calmer mornings, all from the comfort of your bed. Terra Therapy’s grounding sheets are woven with 400 thread count organic cotton and 10% pure silver fiber to deliver a safe, comfortable, and effective grounding connection every night.  Plug into any grounded outlet and let Earth’s natural electrons flow through the sheet to support your body’s recovery, from better sleep and reduced inflammation to calmer nervous system function.  No EMFs. No batteries. Just effortless, science-backed healing while you sleep.</p>"
-              },
-              "blocks": {}
-            },
-            "product_tab_Gbbh4A": {
-              "type": "_product-tab",
-              "name": "Product tab",
-              "settings": {
-                "title": "Who Is It For?",
-                "content": "<p>Grounding can support you if you’re:</p><ul><li>Struggling with poor sleep, racing thoughts, or insomnia</li><li>Waking up stiff, sore, or fatigued</li><li>Living with chronic pain, inflammation, or autoimmune issues</li><li>Experiencing anxiety, stress, or hormonal imbalance</li><li>Looking for a natural, non-invasive wellness solution</li></ul>"
-              },
-              "blocks": {}
-            },
-            "product_tab_PcYTpJ": {
-              "type": "_product-tab",
-              "name": "Product tab",
-              "settings": {
-                "title": "Shipping & Returns",
-                "content": "<ul><li><strong>Free U.S. shipping</strong>&nbsp;on orders over $100</li><li><strong>Fast delivery:</strong>&nbsp;2–6 days (U.S. & Canada), 7–10 days (EU & international)</li><li><strong>90-Day Money-Back Guarantee:</strong>&nbsp;Try it risk-free. If you don’t feel the benefits, send it back. No questions asked.</li><li><strong>Returns:</strong>&nbsp;Contact our support team for easy return instructions. Products must be in good condition.</li><li><strong>Support:</strong>&nbsp;Our team is available 24/7 to help with ordering, setup, or troubleshooting.</li></ul>"
-              },
-              "blocks": {}
-            },
-            "product_tab_cJDeYT": {
-              "type": "_product-tab",
-              "name": "Product tab",
-              "settings": {
-                "title": "Care Instructions",
-                "content": "<p>To maintain conductivity and extend the life of your grounding sheet:</p><ul><li>Wash on gentle cycle with mild detergent</li><li>Avoid bleach, fabric softeners, or dryer sheets</li><li>Air dry when possible, or tumble dry on low</li><li>Do not dry clean</li><li>Wash regularly to remove body oils that can affect performance</li></ul><p>We include full care instructions in the box, and our customer team is always available if you need help.</p>"
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "product_tab_GFU7eR",
-            "product_tab_Gbbh4A",
-            "product_tab_PcYTpJ",
-            "product_tab_cJDeYT"
-          ]
         }
       },
       "settings": {
@@ -145,9 +96,70 @@
         "padding_block_start": 0,
         "padding_block_end": 0
       }
+    },
+    "flex_icon_text_Q363VV": {
+      "type": "flex-icon-text",
+      "blocks": {
+        "icon_text_item_Fjhw3J": {
+          "type": "_icon-text-item",
+          "name": "Icon + text",
+          "settings": {
+            "text": "A Tree Planted per Order",
+            "icon": "shopify://shop_images/Tree.svg"
+          },
+          "blocks": {}
+        },
+        "icon_text_item_AfwwRE": {
+          "type": "_icon-text-item",
+          "name": "Icon + text",
+          "settings": {
+            "text": "Ships in 2–6 Days",
+            "icon": "shopify://shop_images/Package.svg"
+          },
+          "blocks": {}
+        },
+        "icon_text_item_rXe3hU": {
+          "type": "_icon-text-item",
+          "name": "Icon + text",
+          "settings": {
+            "text": "Add text here"
+          },
+          "blocks": {}
+        },
+        "icon_text_item_jBrrhY": {
+          "type": "_icon-text-item",
+          "name": "Icon + text",
+          "settings": {
+            "text": "Designed in USA",
+            "icon": "shopify://shop_images/united-states-america_702250_1.svg"
+          },
+          "blocks": {}
+        },
+        "icon_text_item_AMHgmJ": {
+          "type": "_icon-text-item",
+          "name": "Icon + text",
+          "settings": {
+            "text": "90-Day Results-Backed Guarantee",
+            "icon": "shopify://shop_images/Vector.svg"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "icon_text_item_Fjhw3J",
+        "icon_text_item_AfwwRE",
+        "icon_text_item_rXe3hU",
+        "icon_text_item_jBrrhY",
+        "icon_text_item_AMHgmJ"
+      ],
+      "name": "Flex icon text",
+      "settings": {
+        "background_color": "#31331E"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "flex_icon_text_Q363VV"
   ]
 }
