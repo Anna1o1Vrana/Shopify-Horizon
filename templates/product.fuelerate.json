@@ -190,11 +190,13 @@
         "benefit_EVWLRU": {
           "type": "benefit",
           "settings": {
-            "icon": "shopify://shop_images/Hematology--Streamline-Sharp-Material-Symbols_1.svg",
+            "icon": "shopify://shop_images/Blur-Off--Streamline-Sharp-Material-Symbols_1.svg",
             "title": "Immune & Inflammatory Conditions",
-            "description": "<p>Grounding helps calm and stabilize the nervous system, supporting those dealing with:</p><ul><li>Migraines & headaches</li><li>Neuropathy & brain fog</li><li>Anxiety, depression & mood swings</li><li>ADHD & focus issues</li><li>Insomnia & disrupted sleep</li></ul>",
+            "image": "shopify://shop_images/Rectangle_40141_3.jpg",
+            "description": "<p>By calming the body’s inflammatory response, grounding may support conditions like:</p><ul><li>Autoimmune flare-ups (Lupus, MS, RA)</li><li>Allergies & asthma</li><li>Inflammation-related skin issues</li></ul>",
+            "link_icon": "shopify://shop_images/Vector_1.svg",
             "link_label": "Explore the science behind these benefits",
-            "link": ""
+            "link": "https://fuelerate.breezy.hr/"
           }
         },
         "benefit_YajB9T": {
