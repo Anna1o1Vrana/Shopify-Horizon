@@ -145,12 +145,91 @@
       ],
       "name": "Flex icon text",
       "settings": {
-        "background_color": "#31331E"
+        "background_color": "#31331e"
+      }
+    },
+    "whole_body_benefits_6EXJP9": {
+      "type": "whole-body-benefits",
+      "blocks": {
+        "benefit_c4y8FF": {
+          "type": "benefit",
+          "settings": {
+            "icon": "shopify://shop_images/Neurology--Streamline-Sharp-Material-Symbols_1.svg",
+            "title": "Neurological & Mental Health",
+            "image": "shopify://shop_images/Rectangle_40140.jpg",
+            "description": "<p>Grounding helps calm and stabilize the nervous system, supporting those dealing with:</p><ul><li>Migraines & headaches</li><li>Neuropathy & brain fog</li><li>Anxiety, depression & mood swings</li><li>ADHD & focus issues</li><li>Insomnia & disrupted sleep</li></ul>",
+            "link_icon": "shopify://shop_images/Vector_1.svg",
+            "link_label": "Explore the science behind these benefits",
+            "link": "https://fuelerate.breezy.hr/p/db0222b1d03001-shopify-developer"
+          }
+        },
+        "benefit_cPWVhk": {
+          "type": "benefit",
+          "settings": {
+            "icon": "shopify://shop_images/Rheumatology--Streamline-Sharp-Material-Symbols_1.svg",
+            "title": "Musculoskeletal Pain & Inflammation",
+            "image": "shopify://shop_images/Rectangle_40141.jpg",
+            "description": "<p>By reducing chronic inflammation, grounding can offer relief from:</p><ul><li>Arthritis (RA & OA)<br/></li><li>Fibromyalgia<br/></li><li>Joint, back & neck pain<br/></li><li>Chronic fatigue syndrome<br/>Post-exercise soreness</li></ul>",
+            "link_icon": "shopify://shop_images/Vector_1.svg",
+            "link_label": "Explore the science behind these benefits",
+            "link": "https://fuelerate.breezy.hr/p/db0222b1d03001-shopify-developer"
+          }
+        },
+        "benefit_FHihXw": {
+          "type": "benefit",
+          "settings": {
+            "title": "Cardiovascular & Circulatory Health",
+            "description": "<p>Grounding helps calm and stabilize the nervous system, supporting those dealing with:</p><ul><li>Migraines & headaches</li><li>Neuropathy & brain fog</li><li>Anxiety, depression & mood swings</li><li>ADHD & focus issues</li><li>Insomnia & disrupted sleep</li></ul>",
+            "link_label": "Explore the science behind these benefits",
+            "link": ""
+          }
+        },
+        "benefit_EVWLRU": {
+          "type": "benefit",
+          "settings": {
+            "title": "Immune & Inflammatory Conditions",
+            "description": "<p>Grounding helps calm and stabilize the nervous system, supporting those dealing with:</p><ul><li>Migraines & headaches</li><li>Neuropathy & brain fog</li><li>Anxiety, depression & mood swings</li><li>ADHD & focus issues</li><li>Insomnia & disrupted sleep</li></ul>",
+            "link_label": "Explore the science behind these benefits",
+            "link": ""
+          }
+        },
+        "benefit_YajB9T": {
+          "type": "benefit",
+          "settings": {
+            "title": "Hormonal & Metabolic Balance",
+            "description": "<p>Grounding helps calm and stabilize the nervous system, supporting those dealing with:</p><ul><li>Migraines & headaches</li><li>Neuropathy & brain fog</li><li>Anxiety, depression & mood swings</li><li>ADHD & focus issues</li><li>Insomnia & disrupted sleep</li></ul>",
+            "link_label": "Explore the science behind these benefits",
+            "link": ""
+          }
+        },
+        "benefit_wdPP9J": {
+          "type": "benefit",
+          "settings": {
+            "title": "Specialized Support",
+            "description": "<p>Grounding helps calm and stabilize the nervous system, supporting those dealing with:</p><ul><li>Migraines & headaches</li><li>Neuropathy & brain fog</li><li>Anxiety, depression & mood swings</li><li>ADHD & focus issues</li><li>Insomnia & disrupted sleep</li></ul>",
+            "link_label": "Explore the science behind these benefits",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "benefit_c4y8FF",
+        "benefit_cPWVhk",
+        "benefit_FHihXw",
+        "benefit_EVWLRU",
+        "benefit_YajB9T",
+        "benefit_wdPP9J"
+      ],
+      "name": "Whole-body benefits",
+      "settings": {
+        "heading": "One Natural Solution.\nWhole-Body Benefits.",
+        "intro": "<p>Grounding supports every major system in your body, helping relieve chronic symptoms, restore balance, and promote long-term wellness. <strong>Backed by 20+ years of research and thousands of customer results.</strong></p>"
       }
     }
   },
   "order": [
     "main",
-    "flex_icon_text_Q363VV"
+    "flex_icon_text_Q363VV",
+    "whole_body_benefits_6EXJP9"
   ]
 }
