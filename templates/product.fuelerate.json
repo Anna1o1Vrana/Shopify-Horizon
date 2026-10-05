@@ -202,10 +202,13 @@
         "benefit_YajB9T": {
           "type": "benefit",
           "settings": {
+            "icon": "shopify://shop_images/Genetics--Streamline-Sharp-Material-Symbols_1.svg",
             "title": "Hormonal & Metabolic Balance",
-            "description": "<p>Grounding helps calm and stabilize the nervous system, supporting those dealing with:</p><ul><li>Migraines & headaches</li><li>Neuropathy & brain fog</li><li>Anxiety, depression & mood swings</li><li>ADHD & focus issues</li><li>Insomnia & disrupted sleep</li></ul>",
+            "image": "shopify://shop_images/Rectangle_40141_4.jpg",
+            "description": "<p>Grounding helps support hormone and metabolic regulation. Particularly helpful for:</p><ul><li>Menopause & perimenopause<br/></li><li>PCOS & irregular cycles<br/></li><li>Thyroid imbalance<br/></li><li>Insulin resistance & blood sugar issues</li></ul>",
+            "link_icon": "shopify://shop_images/Vector_1.svg",
             "link_label": "Explore the science behind these benefits",
-            "link": ""
+            "link": "https://fuelerate.breezy.hr/"
           }
         },
         "benefit_wdPP9J": {
