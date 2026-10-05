@@ -214,10 +214,13 @@
         "benefit_wdPP9J": {
           "type": "benefit",
           "settings": {
+            "icon": "shopify://shop_images/Cardiology--Streamline-Sharp-Material-Symbols_1.svg",
             "title": "Specialized Support",
-            "description": "<p>Grounding helps calm and stabilize the nervous system, supporting those dealing with:</p><ul><li>Migraines & headaches</li><li>Neuropathy & brain fog</li><li>Anxiety, depression & mood swings</li><li>ADHD & focus issues</li><li>Insomnia & disrupted sleep</li></ul>",
+            "image": "shopify://shop_images/Rectangle_40141_5.jpg",
+            "description": "<p>A daily grounding practice can also support:</p><p></p><ul><li>Injury & post-surgery recovery<br/></li><li>Pregnancy support (with doctor approval)<br/></li><li>Jet lag & circadian disruption<br/></li><li>Skin health (eczema, psoriasis)<br/></li><li>Athletic performance & muscle recovery</li></ul>",
+            "link_icon": "shopify://shop_images/Vector_1.svg",
             "link_label": "Explore the science behind these benefits",
-            "link": ""
+            "link": "https://fuelerate.breezy.hr/"
           }
         }
       },
