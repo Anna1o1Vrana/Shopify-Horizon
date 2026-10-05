@@ -1,0 +1,371 @@
+{{ 'whole-body-benefits.css' | asset_url | stylesheet_tag }}
+
+<section
+  class="whole-body-benefits"
+  data-whole-body-benefits
+  data-section-id="{{ section.id }}"
+>
+  <div class="whole-body-benefits__container">
+    {% if section.blocks.size > 0 %}
+      <div class="whole-body-benefits__layout">
+        <div>
+          {% if section.settings.heading != blank %}
+            <h2 class="whole-body-benefits__heading">
+              {{ section.settings.heading | escape | newline_to_br }}
+            </h2>
+          {% endif %}
+
+          {% if section.settings.intro != blank %}
+            <div class="whole-body-benefits__intro rte">
+              {{ section.settings.intro }}
+            </div>
+          {% endif %}
+          {%- comment -%}
+            LEFT COLUMN
+            Tabs + image panels
+          {%- endcomment -%}
+
+          <div class="whole-body-benefits__desktop-nav">
+            <div
+              class="whole-body-benefits__nav-list"
+              role="tablist"
+              aria-label="{{ section.settings.heading | escape }}"
+            >
+              {% for block in section.blocks %}
+                <button
+                  id="WholeBodyBenefitsTab-{{ section.id }}-{{ forloop.index }}"
+                  class="whole-body-benefits__nav-item{% if forloop.first %} is-active{% endif %}"
+                  type="button"
+                  role="tab"
+                  aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+                  aria-controls="WholeBodyBenefitsPanel-{{ section.id }}-{{ forloop.index }}"
+                  tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
+                  data-benefit-trigger="{{ forloop.index0 }}"
+                  {{ block.shopify_attributes }}
+                >
+                  {% if block.settings.icon != blank %}
+                    {{
+                      block.settings.icon
+                      | image_url: width: 48
+                      | image_tag: class: 'whole-body-benefits__nav-icon', loading: 'lazy', alt: ''
+                    }}
+                  {% endif %}
+
+                  <span class="whole-body-benefits__nav-label">
+                    {{ block.settings.title | escape }}
+                  </span>
+                </button>
+              {% endfor %}
+            </div>
+
+            <div class="whole-body-benefits__slider-wrap">
+              <div class="whole-body-benefits__slider">
+                {% for block in section.blocks %}
+                  <div
+                    id="WholeBodyBenefitsImage-{{ section.id }}-{{ forloop.index }}"
+                    class="whole-body-benefits__slide"
+                    role="tabpanel"
+                    aria-labelledby="WholeBodyBenefitsTab-{{ section.id }}-{{ forloop.index }}"
+                    data-benefit-panel="{{ forloop.index0 }}"
+                    {% unless forloop.first %}
+                      hidden
+                    {% endunless %}
+                  >
+                    {% if block.settings.image != blank %}
+                      {% if forloop.first %}
+                        {{
+                          block.settings.image
+                          | image_url: width: 900
+                          | image_tag:
+                            class: 'whole-body-benefits__image',
+                            loading: 'eager',
+                            widths: '400, 600, 800, 900',
+                            sizes: '(min-width: 750px) 32vw, 100vw',
+                            alt: block.settings.title
+                          | escape
+                        }}
+                      {% else %}
+                        {{
+                          block.settings.image
+                          | image_url: width: 900
+                          | image_tag:
+                            class: 'whole-body-benefits__image',
+                            loading: 'lazy',
+                            widths: '400, 600, 800, 900',
+                            sizes: '(min-width: 750px) 32vw, 100vw',
+                            alt: block.settings.title
+                          | escape
+                        }}
+                      {% endif %}
+                    {% endif %}
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {%- comment -%}
+          RIGHT COLUMN
+          Content panels
+        {%- endcomment -%}
+
+        <div class="whole-body-benefits__content">
+          {% for block in section.blocks %}
+            <div
+              id="WholeBodyBenefitsPanel-{{ section.id }}-{{ forloop.index }}"
+              class="whole-body-benefits__content-panel{% if forloop.first %} is-active{% endif %}"
+              role="tabpanel"
+              aria-labelledby="WholeBodyBenefitsTab-{{ section.id }}-{{ forloop.index }}"
+              data-benefit-content="{{ forloop.index0 }}"
+              {% unless forloop.first %}
+                hidden
+              {% endunless %}
+            >
+              <div class="whole-body-benefits__card">
+                {% if block.settings.title != blank %}
+                  <h3 class="whole-body-benefits__card-title">
+                    {{ block.settings.title | escape }}
+                  </h3>
+                {% endif %}
+
+                {% if block.settings.description != blank %}
+                  <div class="whole-body-benefits__card-content rte">
+                    {{ block.settings.description }}
+                  </div>
+                {% endif %}
+
+                {% if block.settings.link_label != blank and block.settings.link != blank %}
+                  <a
+                    class="whole-body-benefits__card-link"
+                    href="{{ block.settings.link }}"
+                  >
+                    {% if block.settings.link_icon != blank %}
+                      {{
+                        block.settings.link_icon
+                        | image_url: width: 40
+                        | image_tag: class: 'whole-body-benefits__card-link-icon', loading: 'lazy', alt: ''
+                      }}
+                    {% endif %}
+
+                    <span>{{ block.settings.link_label | escape }}</span>
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        {%- comment -%}
+          MOBILE
+        {%- endcomment -%}
+
+        <div class="whole-body-benefits__mobile-nav">
+          {% for block in section.blocks %}
+            <button
+              id="WholeBodyBenefitsMobileTab-{{ section.id }}-{{ forloop.index }}"
+              class="whole-body-benefits__mobile-active{% if forloop.first %} is-active{% endif %}"
+              type="button"
+              role="tab"
+              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+              aria-controls="WholeBodyBenefitsMobilePanel-{{ section.id }}"
+              data-benefit-mobile-trigger="{{ forloop.index0 }}"
+            >
+              {% if block.settings.icon != blank %}
+                {{
+                  block.settings.icon
+                  | image_url: width: 48
+                  | image_tag: class: 'whole-body-benefits__nav-icon', loading: 'lazy', alt: ''
+                }}
+              {% endif %}
+
+              <span class="whole-body-benefits__nav-label">
+                {{ block.settings.title | escape }}
+              </span>
+            </button>
+          {% endfor %}
+        </div>
+
+        <div class="whole-body-benefits__mobile-panel">
+          {% for block in section.blocks %}
+            <div
+              class="whole-body-benefits__content-panel{% if forloop.first %} is-active{% endif %}"
+              role="tabpanel"
+              aria-labelledby="WholeBodyBenefitsMobileTab-{{ section.id }}-{{ forloop.index }}"
+              data-benefit-mobile-content="{{ forloop.index0 }}"
+              {% unless forloop.first %}
+                hidden
+              {% endunless %}
+            >
+              <div class="whole-body-benefits__card">
+                {% if block.settings.title != blank %}
+                  <h3 class="whole-body-benefits__card-title">
+                    {{ block.settings.title | escape }}
+                  </h3>
+                {% endif %}
+
+                {% if block.settings.description != blank %}
+                  <div class="whole-body-benefits__card-content rte">
+                    {{ block.settings.description }}
+                  </div>
+                {% endif %}
+
+                {% if block.settings.link_label != blank and block.settings.link != blank %}
+                  <a
+                    class="whole-body-benefits__card-link"
+                    href="{{ block.settings.link }}"
+                  >
+                    {% if block.settings.link_icon != blank %}
+                      {{
+                        block.settings.link_icon
+                        | image_url: width: 40
+                        | image_tag: class: 'whole-body-benefits__card-link-icon', loading: 'lazy', alt: ''
+                      }}
+                    {% endif %}
+
+                    <span>{{ block.settings.link_label | escape }}</span>
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="whole-body-benefits__mobile-nav-list">
+          {% for block in section.blocks %}
+            <button
+              class="whole-body-benefits__mobile-nav-item{% if forloop.first %} is-hidden{% endif %}"
+              type="button"
+              data-benefit-mobile-trigger="{{ forloop.index0 }}"
+            >
+              {% if block.settings.icon != blank %}
+                {{
+                  block.settings.icon
+                  | image_url: width: 48
+                  | image_tag: class: 'whole-body-benefits__nav-icon', loading: 'lazy', alt: ''
+                }}
+              {% endif %}
+
+              <span class="whole-body-benefits__nav-label">
+                {{ block.settings.title | escape }}
+              </span>
+            </button>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<script src="{{ 'whole-body-benefits.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Whole-body benefits",
+  "tag": "section",
+  "class": "whole-body-benefits-section",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "One Natural Solution.\nWhole-Body Benefits."
+    },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "Intro",
+      "default": "<p>Grounding supports every major system in your body, helping relieve chronic symptoms, restore balance, and promote long-term wellness. <strong>Backed by 20+ years of research and thousands of customer results.</strong></p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Neurological & Mental Health"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Grounding helps calm and stabilize the nervous system, supporting those dealing with:</p><ul><li>Migraines & headaches</li><li>Neuropathy & brain fog</li><li>Anxiety, depression & mood swings</li><li>ADHD & focus issues</li><li>Insomnia & disrupted sleep</li></ul>"
+        },
+        {
+          "type": "image_picker",
+          "id": "link_icon",
+          "label": "Link icon"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Link label",
+          "default": "Explore the science behind these benefits"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Whole-body benefits",
+      "blocks": [
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "Neurological & Mental Health"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "Musculoskeletal Pain & Inflammation"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "Cardiovascular & Circulatory Health"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "Immune & Inflammatory Conditions"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "Hormonal & Metabolic Balance"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "Specialized Support"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
